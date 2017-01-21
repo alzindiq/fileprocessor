@@ -1,0 +1,2 @@
+Este es un test de campaña que probará un charset distinto.
+¿Funcionará?
