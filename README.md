@@ -6,15 +6,14 @@ A very simple set of classes to read a file (one line at a time) and aggregate s
 
 As any Mavenised project you can simply install it by:
 
-```mvn clean install
-```
+`mvn clean install`
+
 
 Note this will not automatically pull all the dependencies for you.  
 
 If you want a single, self contained jar including all the dependencies, then run:
 
-```mvn clean compile assembly:single
-```
+`mvn clean compile assembly:single`
 
 ## Usage
 
@@ -25,8 +24,7 @@ The test classes under the ./test folder show simple examples on how to use it p
 
 If you want to use the command line, from the root folder of the project, execute:
 
-```java -cp ./target/FileProcessor-0.1-SNAPSHOT-jar-with-dependencies.jar FileProcessor <fileName>
-```
+`java -cp ./target/FileProcessor-0.1-SNAPSHOT-jar-with-dependencies.jar FileProcessor <fileName>`
 
 ## Extensibility
 
