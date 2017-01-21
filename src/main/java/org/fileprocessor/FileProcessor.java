@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.stream.Stream;
 
 /**
- * Basic scaffolding that simply breaks text in lines and invokes @see main.org.fileprocessor.LineProcessor#process() on the main.org.fileprocessor.LineProcessor interface.
- * It relies on user-provided @link main.org.fileprocessor.LineProcessor for implementing the desired line analysis
+ * Basic scaffolding that simply breaks text in lines and invokes @see org.fileprocessor.LineProcessor#process().
+ * It relies on user-provided @link org.fileprocessor.LineProcessor for implementing the desired line analysis
  */
 public class FileProcessor {
 

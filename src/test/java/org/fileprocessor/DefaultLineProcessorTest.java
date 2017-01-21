@@ -1,7 +1,5 @@
 package org.fileprocessor;
 
-import org.fileprocessor.DefaultLineProcessor;
-import org.fileprocessor.LineProcessor;
 import org.junit.Before;
 import org.junit.Test;
 
