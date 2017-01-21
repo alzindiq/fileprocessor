@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This is a class used for testing the main.FileProcessor with multiple LineProcessors.
+ * This is a class used for testing the FileProcessor with multiple LineProcessors.
  * It does nto really do any processing.
  */
 public class DoNothingLineProcessor implements LineProcessor {

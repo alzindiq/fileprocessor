@@ -46,3 +46,7 @@ You can provide the FileProcessor with a List of LineProcessors and it will invo
 4. Push to the branch: `git push origin my-new-feature`
 5. Submit a pull request :D
 
+## JavaDocs
+
+[Generated documentation](docs/index.html)
+
