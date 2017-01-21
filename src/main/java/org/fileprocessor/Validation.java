@@ -1,3 +1,5 @@
+package org.fileprocessor;
+
 /**
  * Placeholder to store the result of a file read. It will contain a result type (ValidationType enum) to indicate if the processing resulted in:
  * a correct result (OK), an error (ERROR), or the process could be done but there are warnings to take a look at (HINT).

@@ -1,3 +1,5 @@
+package org.fileprocessor;
+
 import org.apache.log4j.Logger;
 
 import java.io.File;
@@ -11,8 +13,8 @@ import java.util.List;
 import java.util.stream.Stream;
 
 /**
- * Basic scaffolding that simply breaks text in lines and invokes @see main.LineProcessor#process() on the main.LineProcessor interface.
- * It relies on user-provided @link main.LineProcessor for implementing the desired line analysis
+ * Basic scaffolding that simply breaks text in lines and invokes @see main.org.fileprocessor.LineProcessor#process() on the main.org.fileprocessor.LineProcessor interface.
+ * It relies on user-provided @link main.org.fileprocessor.LineProcessor for implementing the desired line analysis
  */
 public class FileProcessor {
 
@@ -35,8 +37,8 @@ public class FileProcessor {
     /**
      * Help message to be displayed on wrong arguments to main
      */
-    public final static String help ="FileName is mandatory. \n*******************\nUsage: java main.FileProcessor <filename> \n" +
-            "You can also provide a valid encoding as an argument. Usage: java main.FileProcessor <filename> <charset> \n" +
+    public final static String help ="FileName is mandatory. \n*******************\nUsage: java main.org.fileprocessor.FileProcessor <filename> \n" +
+            "You can also provide a valid encoding as an argument. Usage: java main.org.fileprocessor.FileProcessor <filename> <charset> \n" +
             "For valid encodings, visit: https://docs.oracle.com/javase/8/docs/technotes/guides/intl/encoding.doc.html";
 
     /**

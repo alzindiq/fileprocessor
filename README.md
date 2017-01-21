@@ -28,7 +28,7 @@ The test classes under the ./test folder show simple examples on how to use it p
 
 If you want to use the command line, from the root folder of the project, execute:
 
-`java -cp ./target/FileProcessor-0.1-SNAPSHOT-jar-with-dependencies.jar FileProcessor <fileName>`
+`java -cp ./target/FileProcessor-0.1-SNAPSHOT-jar-with-dependencies.jar org.fileprocessor.FileProcessor <fileName>`
 
 ## Extensibility
 

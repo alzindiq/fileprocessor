@@ -1,10 +1,12 @@
+package org.fileprocessor;
+
 import org.apache.log4j.Logger;
 
 import java.text.DecimalFormat;
 import java.util.*;
 
 /**
- * Default Implementation of the LineProcessor interface that calculates several simple stats:
+ * Default Implementation of the org.fileprocessor.LineProcessor interface that calculates several simple stats:
  * word count, line count, average number of letters per word (to one decimal place) and most common letter.
  */
 public class DefaultLineProcessor implements LineProcessor {

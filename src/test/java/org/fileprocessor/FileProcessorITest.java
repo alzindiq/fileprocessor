@@ -1,4 +1,5 @@
-import org.junit.After;
+package org.fileprocessor;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -28,7 +29,7 @@ public class FileProcessorITest {
     @Test
     public void testNullProcessorShouldFail(){
         LineProcessor lineProcessor = null;
-        URL url = this.getClass().getResource("testFileUTF8_NO_BOM.txt");
+        URL url = this.getClass().getResource("../../testFileUTF8_NO_BOM.txt");
         Validation validation=fileProcessor.processFile(url.getFile().substring(1),lineProcessor, StandardCharsets.UTF_8);
         assertEquals("Error ", Validation.ValidationType.ERROR,validation.getType());
         assertTrue("Error message should contain ", validation.getText().contains(FileProcessor.EMPTY_LIST_OF_PROCESSORS_ERROR));
@@ -36,7 +37,7 @@ public class FileProcessorITest {
 
     @Test
     public void testIncompatibleCharset(){
-        URL url = this.getClass().getResource("testFileUTF8_NO_BOM.txt");
+        URL url = this.getClass().getResource("../../testFileUTF8_NO_BOM.txt");
         Validation validation=fileProcessor.processFile(url.getFile().substring(1), Charset.forName("UTF-32"));
         assertEquals("Error ", Validation.ValidationType.ERROR,validation.getType());
         assertTrue("Error message should contain ", validation.getText().contains(FileProcessor.WRONG_ENCODING_ERROR));
@@ -44,7 +45,7 @@ public class FileProcessorITest {
 
     @Test
     public void testUTF8(){
-        URL url = this.getClass().getResource("testFileUTF8_NO_BOM.txt");
+        URL url = this.getClass().getResource("../../testFileUTF8_NO_BOM.txt");
         LineProcessor lineProcessor = new DefaultLineProcessor();
         Validation validation=fileProcessor.processFile(url.getFile().substring(1), lineProcessor, StandardCharsets.UTF_8);
         assertEquals("OK ", Validation.ValidationType.OK,validation.getType());
@@ -63,7 +64,7 @@ public class FileProcessorITest {
 
     @Test
     public void testISO8859_1(){
-        URL url = this.getClass().getResource("testFileISO8859-1.txt");
+        URL url = this.getClass().getResource("../../testFileISO8859-1.txt");
         LineProcessor lineProcessor = new DefaultLineProcessor();
         Validation validation=fileProcessor.processFile(url.getFile().substring(1), lineProcessor, StandardCharsets.ISO_8859_1);
         assertEquals("OK ", Validation.ValidationType.OK,validation.getType());
@@ -82,7 +83,7 @@ public class FileProcessorITest {
 
     @Test
     public void testEmptyListOfProcessors()  {
-        URL url = this.getClass().getResource("testFileUTF8_NO_BOM.txt");
+        URL url = this.getClass().getResource("../../testFileUTF8_NO_BOM.txt");
         Validation validation=fileProcessor.processFile(url.getFile().substring(1), new ArrayList(), StandardCharsets.UTF_8);
         assertEquals("Error ", Validation.ValidationType.ERROR,validation.getType());
         assertTrue("Error message should contain ", validation.getText().contains(FileProcessor.EMPTY_LIST_OF_PROCESSORS_ERROR));
@@ -90,7 +91,7 @@ public class FileProcessorITest {
 
     @Test
     public void testListOfProcessorsAllNull()  {
-        URL url = this.getClass().getResource("testFileUTF8_NO_BOM.txt");
+        URL url = this.getClass().getResource("../../testFileUTF8_NO_BOM.txt");
         Validation validation=fileProcessor.processFile(url.getFile().substring(1), Arrays.asList(null, null), StandardCharsets.UTF_8);
         assertEquals("Error ", Validation.ValidationType.ERROR,validation.getType());
         assertTrue("Error message should contain ", validation.getText().contains(FileProcessor.EMPTY_LIST_OF_PROCESSORS_ERROR));
@@ -98,7 +99,7 @@ public class FileProcessorITest {
 
     @Test
     public void testOneNullProcessor()  {
-        URL url = this.getClass().getResource("testFileUTF8_NO_BOM.txt");
+        URL url = this.getClass().getResource("../../testFileUTF8_NO_BOM.txt");
         LineProcessor lineProcessor = new DefaultLineProcessor();
         Validation validation=fileProcessor.processFile(url.getFile().substring(1), Arrays.asList(null, lineProcessor), StandardCharsets.UTF_8);
         assertEquals("OK ", Validation.ValidationType.OK,validation.getType());
@@ -117,7 +118,7 @@ public class FileProcessorITest {
 
     @Test
     public void testTwoNonNullProcessor()  {
-        URL url = this.getClass().getResource("testFileUTF8_NO_BOM.txt");
+        URL url = this.getClass().getResource("../../testFileUTF8_NO_BOM.txt");
         LineProcessor defaultLineProcessor = new DefaultLineProcessor();
         LineProcessor testLineProcessor = new DoNothingLineProcessor();
         Validation validation=fileProcessor.processFile(url.getFile().substring(1), Arrays.asList(testLineProcessor, defaultLineProcessor),
@@ -153,8 +154,8 @@ public class FileProcessorITest {
     @Test
     public void testMadeUpEncoding()  {
         System.setOut(new PrintStream(outContent));
-        String[] args = {"testFileISO8859-1.txt","MyEncoding"};
-        String expected = "Wrong encoding provided for file: testFileISO8859-1.txt. Make sure the provided encoding (MyEncoding) is correct. \r\n";
+        String[] args = {"../../testFileISO8859-1.txt","MyEncoding"};
+        String expected = "Wrong encoding provided for file: ../../testFileISO8859-1.txt. Make sure the provided encoding (MyEncoding) is correct. \r\n";
         FileProcessor.main(args);
         String out = outContent.toString();
         System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
@@ -164,7 +165,7 @@ public class FileProcessorITest {
     @Test
     public void testRightSingleArgumentToMain()  {
         System.setOut(new PrintStream(outContent));
-        URL url = this.getClass().getResource("testFileUTF8_NO_BOM.txt");
+        URL url = this.getClass().getResource("../../testFileUTF8_NO_BOM.txt");
         String[] args = {url.getFile().substring(1)};
         FileProcessor.main(args);
         String out = outContent.toString();
@@ -177,7 +178,7 @@ public class FileProcessorITest {
     @Test
     public void testRightTwoArgumentsToMain()  {
         System.setOut(new PrintStream(outContent));
-        URL url = this.getClass().getResource("testFileUTF8_NO_BOM.txt");
+        URL url = this.getClass().getResource("../../testFileUTF8_NO_BOM.txt");
         String[] args = {url.getFile().substring(1), "UTF-8"};
         FileProcessor.main(args);
         String out = outContent.toString();

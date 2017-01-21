@@ -1,15 +1,17 @@
+package org.fileprocessor;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- * This is a class used for testing the FileProcessor with multiple LineProcessors.
+ * This is a class used for testing the org.fileprocessor.FileProcessor with multiple LineProcessors.
  * It does nto really do any processing.
  */
 public class DoNothingLineProcessor implements LineProcessor {
     /**
-     * Only kew for the "metric" calculated by this main.LineProcessor
+     * Only kew for the "metric" calculated by this main.org.fileprocessor.LineProcessor
      */
     public static final String DO_NOTHING = "NOTHING";
 
