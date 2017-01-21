@@ -118,16 +118,15 @@ public class FileProcessor {
             return new Validation(FILE_PROCESSING_ERROR+": "+fileName+" because of exception: \n "+e.getMessage(),
                     Validation.ValidationType.ERROR);
         }
-        for(LineProcessor processor : processors) { // at least one of them needs to be non-null
-            if (processor != null) {
-                System.out.println("**********************");
-                System.out.println("Output for processor: "+processor.getClass().getName());
-                System.out.println("**********************");
-                logger.info("Output for processor: "+processor.getClass().getName());
-                System.out.println(processor.printProcessedLines());
-                logger.info(processor.printProcessedLines());
-            }
-        }
+        // at least one of them needs to be non-null
+        processors.stream().filter(processor -> processor != null).forEach(processor -> {
+            System.out.println("**********************");
+            System.out.println("Output for processor: " + processor.getClass().getName());
+            System.out.println("**********************");
+            logger.info("Output for processor: " + processor.getClass().getName());
+            System.out.println(processor.printProcessedLines());
+            logger.info(processor.printProcessedLines());
+        });
         return new Validation("OK", Validation.ValidationType.OK);
     }
 

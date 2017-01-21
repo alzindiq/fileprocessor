@@ -157,6 +157,27 @@ public class DefaultLineProcessorTest {
     }
 
     @Test
+    public void testJapanese(){
+        String jaString = new String("\u65e5\u672c\u8a9e\u6587\u5b57\u5217");
+        Double expectedLines = 1.0;
+        Double expectedWords = 1.0;
+        Double avgLettersPerWord = 6.0;
+        Character mostCommonLetter = '列';
+
+        String expectedOutput = "Lines: "+expectedLines+"\n" +
+                "Words: "+expectedWords+"\n" +
+                "Average letters per word: "+new DecimalFormat("0.0").format(avgLettersPerWord)+"\n" +
+                "Most common letter: "+mostCommonLetter+"\n";
+        lineProcessor.process(jaString);
+        Map<String,Object> statMap = lineProcessor.getKVForProcessedLines();
+        assertEquals("Get japanese ",expectedOutput,lineProcessor.printProcessedLines());
+        assertEquals("Get expected lines ",expectedLines,statMap.get(DefaultLineProcessor.LINES));
+        assertEquals("Get expected words ",expectedWords,statMap.get(DefaultLineProcessor.WORDS));
+        assertEquals("Get expected avgLettersPerWord ",avgLettersPerWord,statMap.get(DefaultLineProcessor.LETTER_PER_WORD));
+        assertEquals("Get expected mostCommonLetter ",mostCommonLetter,statMap.get(DefaultLineProcessor.MOST_COMMON_LETTER));
+    }
+
+    @Test
     public void testIdeograms(){
         String ideograms = "\uF93D\uF936\uF949\uF942\uF942"; // Chinese ideograms
         Double expectedLines = 1.0;

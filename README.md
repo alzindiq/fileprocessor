@@ -8,12 +8,16 @@ As any Mavenised project you can simply install it by:
 
 `mvn clean install`
 
-
 Note this will not automatically pull all the dependencies for you.  
 
 If you want a single, self contained jar including all the dependencies, then run:
 
 `mvn clean compile assembly:single`
+
+NOTE: javac provides the ``-encoding <encoding>` option for source files that contain unicode files, as this project does in some of its tests.
+The pom.xml file we provided already gives the right encoding (UTF-8) to cope with this, but make sure you add the `-encoding UTF-8` option if
+ you decide to compile outside of maven or with a different pom.xml. This is used for test purposes only, as for when the code reals from a file,
+ it asks for the right Charset and will only resort to the OS default encoding if this is not provided.
 
 ## Usage
 

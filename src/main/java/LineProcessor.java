@@ -3,7 +3,10 @@ import java.util.Map;
 
 /**
  * Interface to be implemented by classes wanting to process a file and extract some metrics/stats.
- * The metrics are supposed to be named and a Key (name) - value map is created to store them
+ * The metrics are supposed to be named and a Key (name) - value map is created to store them.
+ *
+ * Before you write your own LineProcessor, you may want to revisit some basics of text encoding and unicode in Java:
+ * @see <a href="http://illegalargumentexception.blogspot.co.uk/2009/05/java-rough-guide-to-character-encoding.html">http://illegalargumentexception.blogspot.co.uk/2009/05/java-rough-guide-to-character-encoding.html</a>
  */
 public interface LineProcessor {
     /**
