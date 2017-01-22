@@ -2,6 +2,7 @@ package org.fileprocessor;
 
 import org.apache.log4j.Logger;
 
+import java.math.BigInteger;
 import java.text.DecimalFormat;
 import java.util.*;
 
@@ -35,7 +36,7 @@ public class DefaultLineProcessor implements LineProcessor {
     private double lineCount = 0;
     private double wordCount = 0;
     private double totalChar = 0;
-    private Map<Character,Integer> charCount = new HashMap<>();
+    private Map<Character,BigInteger> charCount = new HashMap<>();
     private Map<String,Object> statMap = new HashMap();
 
     @Override
@@ -69,9 +70,9 @@ public class DefaultLineProcessor implements LineProcessor {
     private void processChars(char[] word) {
         for(Character c: word){
             if(charCount.get(c) == null){
-                charCount.put(c,1);
+                charCount.put(c,BigInteger.ONE);
             }else{
-                charCount.put(c,charCount.get(c)+1);
+                charCount.put(c,charCount.get(c).add(BigInteger.ONE));
             }
             if(logger.isTraceEnabled()){
                 logger.trace("added char to map counter. Char: "+c+". Count: "+charCount.get(c));
@@ -109,11 +110,11 @@ public class DefaultLineProcessor implements LineProcessor {
         if(charCount.size() ==0){
             statMap.put(MOST_COMMON_LETTER, "None");
         }else {
-            Map.Entry<Character, Integer> mostCommonLetter = charCount.entrySet()
+            Map.Entry<Character, BigInteger> mostCommonLetter = charCount.entrySet()
                     .stream() // sort to make output deterministic in case of same number of occurrences of several chars
-                    .sorted(( Map.Entry<Character, Integer> o1, Map.Entry<Character, Integer> o2) -> o1.getKey().compareTo(o2.getKey()) )
+                    .sorted(( Map.Entry<Character, BigInteger> o1, Map.Entry<Character, BigInteger> o2) -> o1.getKey().compareTo(o2.getKey()) )
                     .max(
-                    Map.Entry.comparingByValue(Integer::compareTo)).get();
+                    Map.Entry.comparingByValue(BigInteger::compareTo)).get();
             statMap.put(MOST_COMMON_LETTER, mostCommonLetter.getKey() );
         }
     }

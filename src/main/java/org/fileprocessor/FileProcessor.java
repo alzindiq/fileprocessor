@@ -38,7 +38,7 @@ public class FileProcessor {
      * Help message to be displayed on wrong arguments to main
      */
     public final static String help ="FileName is mandatory. \n*******************\nUsage: java main.org.fileprocessor.FileProcessor <filename> \n" +
-            "You can also provide a valid encoding as an argument. Usage: java main.org.fileprocessor.FileProcessor <filename> <charset> \n" +
+            "You can also provide a valid encoding as an argument. Usage: java org.fileprocessor.FileProcessor <filename> <charset> \n" +
             "For valid encodings, visit: https://docs.oracle.com/javase/8/docs/technotes/guides/intl/encoding.doc.html";
 
     /**
