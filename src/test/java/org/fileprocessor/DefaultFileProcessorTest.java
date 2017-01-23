@@ -43,4 +43,15 @@ public class DefaultFileProcessorTest {
         assertTrue("Error message should contain ", validation.getText().contains(DefaultFileProcessor.FILE_LOCATION_ERROR));
     }
 
+    @Test
+    public void testGetKeyNamesNullProcessors(){
+        Validation validation = defaultFileProcessor.processFile(null);
+        assertTrue(defaultFileProcessor.getKeyNames().size()==0);
+    }
+
+    @Test
+    public void testGetKVMpNullProcessors(){
+        Validation validation = defaultFileProcessor.processFile(null);
+        assertTrue(defaultFileProcessor.getKVForProcessedLines().size()==0);
+    }
 }

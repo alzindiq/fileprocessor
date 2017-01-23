@@ -8,8 +8,8 @@ import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -20,6 +20,8 @@ import java.util.stream.Stream;
 public class DefaultFileProcessor implements FileProcessor{
 
     private final static Logger logger = Logger.getLogger(DefaultFileProcessor.class.getName());
+
+    private List<LineProcessor> processors = null;
 
     /**
      * Error message for file processing errors.
@@ -97,7 +99,7 @@ public class DefaultFileProcessor implements FileProcessor{
                     Validation.ValidationType.ERROR);
         }
 
-        if(processors==null || processors.isEmpty() || !hasNoNullProcessor(processors)) {
+        if(processors==null || processors.isEmpty() || !processors.stream().anyMatch(p -> p!= null)) {
             System.out.println(EMPTY_LIST_OF_PROCESSORS_ERROR + ".");
             logger.info(EMPTY_LIST_OF_PROCESSORS_ERROR + ".");
             return new Validation(EMPTY_LIST_OF_PROCESSORS_ERROR + ".",
@@ -110,6 +112,8 @@ public class DefaultFileProcessor implements FileProcessor{
             logger.info(FILE_LOCATION_ERROR+": "+fileName+". \n Please make sure it exists in specified path and it is not a directory.");
             return new Validation(FILE_LOCATION_ERROR+": "+fileName+". \n Please make sure it exists in specified path and it is not a directory.", Validation.ValidationType.ERROR);
         }
+
+        this.processors = processors;
 
         try (Stream<String> lines = Files.lines(Paths.get(fileName), charset == null? Charset.defaultCharset() : charset)) {
             lines.forEachOrdered(line -> {
@@ -138,22 +142,21 @@ public class DefaultFileProcessor implements FileProcessor{
         return new Validation("OK", Validation.ValidationType.OK);
     }
 
-    private boolean hasNoNullProcessor(List<LineProcessor> processors) {
-        int count =0;
-        for(LineProcessor processor : processors) { // at least one of them needs to be non-null
-            if (processor != null) {
-                count++;
-                break;
-            }
-        }
-        if(logger.isDebugEnabled()){
-            logger.debug("Check if list processors holds a non-null element -> "+(count!=0));
-        }
-        return count!=0;
+    @Override
+    public List<String> getKeyNames() {
+        return this.processors == null ? new ArrayList<>(0) : this.processors.stream().
+                filter(p -> p != null).map(p -> p.getKeyNames()).flatMap(List::stream).collect(Collectors.toList());
+    }
+
+    @Override
+    public Map<String, Object> getKVForProcessedLines() {
+        return this.processors == null ? new HashMap() : this.processors.stream().
+                filter(p -> p != null).map(p -> p.getKVForProcessedLines()).flatMap (map -> map.entrySet().stream()).
+                collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue()));
     }
 
     public static void main(String[] args) {
-        if(args == null || args.length == 0) {
+        if(args == null || args.length == 0 || args.length > 2) {
             System.out.println(help);
         }else {
             DefaultFileProcessor defaultFileProcessor = new DefaultFileProcessor();
@@ -162,8 +165,6 @@ public class DefaultFileProcessor implements FileProcessor{
             } else {
                 if (args.length == 2) {
                     defaultFileProcessor.processFile(args[0], args[1]);
-                }else{
-                    System.out.println(help);
                 }
             }
         }
