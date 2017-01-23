@@ -2,6 +2,11 @@
 
 A very simple set of classes to read a file (one line at a time) and aggregate statistics about its contents.
 
+## Prerequisites
+
+1. Maven 3.
+2. Java 8.
+
 ## Installation
 
 As any Mavenised project you can simply install it by:

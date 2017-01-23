@@ -17,37 +17,37 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class FileProcessorITest {
-    private FileProcessor fileProcessor;
+public class DefaultFileProcessorITest {
+    private DefaultFileProcessor defaultFileProcessor;
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 
     @Before
     public void setup(){
-        fileProcessor = new FileProcessor();
+        defaultFileProcessor = new DefaultFileProcessor();
     }
 
     @Test
     public void testNullProcessorShouldFail(){
         LineProcessor lineProcessor = null;
         URL url = this.getClass().getResource("../../testFileUTF8_NO_BOM.txt");
-        Validation validation=fileProcessor.processFile(url.getFile().substring(1),lineProcessor, StandardCharsets.UTF_8);
+        Validation validation= defaultFileProcessor.processFile(url.getFile().substring(1),lineProcessor, StandardCharsets.UTF_8);
         assertEquals("Error ", Validation.ValidationType.ERROR,validation.getType());
-        assertTrue("Error message should contain ", validation.getText().contains(FileProcessor.EMPTY_LIST_OF_PROCESSORS_ERROR));
+        assertTrue("Error message should contain ", validation.getText().contains(DefaultFileProcessor.EMPTY_LIST_OF_PROCESSORS_ERROR));
     }
 
     @Test
     public void testIncompatibleCharset(){
         URL url = this.getClass().getResource("../../testFileUTF8_NO_BOM.txt");
-        Validation validation=fileProcessor.processFile(url.getFile().substring(1), Charset.forName("UTF-32"));
+        Validation validation= defaultFileProcessor.processFile(url.getFile().substring(1), Charset.forName("UTF-32"));
         assertEquals("Error ", Validation.ValidationType.ERROR,validation.getType());
-        assertTrue("Error message should contain ", validation.getText().contains(FileProcessor.WRONG_ENCODING_ERROR));
+        assertTrue("Error message should contain ", validation.getText().contains(DefaultFileProcessor.WRONG_ENCODING_ERROR));
     }
 
     @Test
     public void testUTF8(){
         URL url = this.getClass().getResource("../../testFileUTF8_NO_BOM.txt");
         LineProcessor lineProcessor = new DefaultLineProcessor();
-        Validation validation=fileProcessor.processFile(url.getFile().substring(1), lineProcessor, StandardCharsets.UTF_8);
+        Validation validation= defaultFileProcessor.processFile(url.getFile().substring(1), lineProcessor, StandardCharsets.UTF_8);
         assertEquals("OK ", Validation.ValidationType.OK,validation.getType());
 
         Double expectedLines = 3.0;
@@ -66,7 +66,7 @@ public class FileProcessorITest {
     public void testISO8859_1(){
         URL url = this.getClass().getResource("../../testFileISO8859-1.txt");
         LineProcessor lineProcessor = new DefaultLineProcessor();
-        Validation validation=fileProcessor.processFile(url.getFile().substring(1), lineProcessor, StandardCharsets.ISO_8859_1);
+        Validation validation= defaultFileProcessor.processFile(url.getFile().substring(1), lineProcessor, StandardCharsets.ISO_8859_1);
         assertEquals("OK ", Validation.ValidationType.OK,validation.getType());
 
         Double expectedLines = 2.0;
@@ -84,24 +84,24 @@ public class FileProcessorITest {
     @Test
     public void testEmptyListOfProcessors()  {
         URL url = this.getClass().getResource("../../testFileUTF8_NO_BOM.txt");
-        Validation validation=fileProcessor.processFile(url.getFile().substring(1), new ArrayList(), StandardCharsets.UTF_8);
+        Validation validation= defaultFileProcessor.processFile(url.getFile().substring(1), new ArrayList(), StandardCharsets.UTF_8);
         assertEquals("Error ", Validation.ValidationType.ERROR,validation.getType());
-        assertTrue("Error message should contain ", validation.getText().contains(FileProcessor.EMPTY_LIST_OF_PROCESSORS_ERROR));
+        assertTrue("Error message should contain ", validation.getText().contains(DefaultFileProcessor.EMPTY_LIST_OF_PROCESSORS_ERROR));
     }
 
     @Test
     public void testListOfProcessorsAllNull()  {
         URL url = this.getClass().getResource("../../testFileUTF8_NO_BOM.txt");
-        Validation validation=fileProcessor.processFile(url.getFile().substring(1), Arrays.asList(null, null), StandardCharsets.UTF_8);
+        Validation validation= defaultFileProcessor.processFile(url.getFile().substring(1), Arrays.asList(null, null), StandardCharsets.UTF_8);
         assertEquals("Error ", Validation.ValidationType.ERROR,validation.getType());
-        assertTrue("Error message should contain ", validation.getText().contains(FileProcessor.EMPTY_LIST_OF_PROCESSORS_ERROR));
+        assertTrue("Error message should contain ", validation.getText().contains(DefaultFileProcessor.EMPTY_LIST_OF_PROCESSORS_ERROR));
     }
 
     @Test
     public void testOneNullProcessor()  {
         URL url = this.getClass().getResource("../../testFileUTF8_NO_BOM.txt");
         LineProcessor lineProcessor = new DefaultLineProcessor();
-        Validation validation=fileProcessor.processFile(url.getFile().substring(1), Arrays.asList(null, lineProcessor), StandardCharsets.UTF_8);
+        Validation validation= defaultFileProcessor.processFile(url.getFile().substring(1), Arrays.asList(null, lineProcessor), StandardCharsets.UTF_8);
         assertEquals("OK ", Validation.ValidationType.OK,validation.getType());
 
         Double expectedLines = 3.0;
@@ -121,7 +121,7 @@ public class FileProcessorITest {
         URL url = this.getClass().getResource("../../testFileUTF8_NO_BOM.txt");
         LineProcessor defaultLineProcessor = new DefaultLineProcessor();
         LineProcessor testLineProcessor = new DoNothingLineProcessor();
-        Validation validation=fileProcessor.processFile(url.getFile().substring(1), Arrays.asList(testLineProcessor, defaultLineProcessor),
+        Validation validation= defaultFileProcessor.processFile(url.getFile().substring(1), Arrays.asList(testLineProcessor, defaultLineProcessor),
                 StandardCharsets.UTF_8);
         assertEquals("OK ", Validation.ValidationType.OK,validation.getType());
 
@@ -144,8 +144,8 @@ public class FileProcessorITest {
     public void testWrongArgumentsToMain()  {
         System.setOut(new PrintStream(outContent));
         String[] args = null;
-        String expected = FileProcessor.help+"\r\n";
-        FileProcessor.main(args);
+        String expected = DefaultFileProcessor.help+"\r\n";
+        DefaultFileProcessor.main(args);
         String out = outContent.toString();
         System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
         assertEquals(expected,out);
@@ -156,7 +156,7 @@ public class FileProcessorITest {
         System.setOut(new PrintStream(outContent));
         String[] args = {"../../testFileISO8859-1.txt","MyEncoding"};
         String expected = "Wrong encoding provided for file: ../../testFileISO8859-1.txt. Make sure the provided encoding (MyEncoding) is correct. \r\n";
-        FileProcessor.main(args);
+        DefaultFileProcessor.main(args);
         String out = outContent.toString();
         System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
         assertEquals(expected,out);
@@ -167,7 +167,7 @@ public class FileProcessorITest {
         System.setOut(new PrintStream(outContent));
         URL url = this.getClass().getResource("../../testFileUTF8_NO_BOM.txt");
         String[] args = {url.getFile().substring(1)};
-        FileProcessor.main(args);
+        DefaultFileProcessor.main(args);
         String out = outContent.toString();
         System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
         assertTrue(out.contains("DefaultLineProcessor"));
@@ -180,7 +180,7 @@ public class FileProcessorITest {
         System.setOut(new PrintStream(outContent));
         URL url = this.getClass().getResource("../../testFileUTF8_NO_BOM.txt");
         String[] args = {url.getFile().substring(1), "UTF-8"};
-        FileProcessor.main(args);
+        DefaultFileProcessor.main(args);
         String out = outContent.toString();
         System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
         assertTrue(out.contains("DefaultLineProcessor"));
