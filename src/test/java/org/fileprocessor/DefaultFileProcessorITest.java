@@ -188,7 +188,8 @@ public class DefaultFileProcessorITest {
     public void testRightSingleArgumentToMain()  {
         System.setOut(new PrintStream(outContent));
         URL url = DefaultFileProcessorITest.class.getResource("/testFileUTF8_NO_BOM.txt");
-        String[] args = {url.getFile().substring(1)};
+        String fileName = isWindows() ? url.getFile().substring(1) : url.getFile();
+        String[] args = {fileName};
         DefaultFileProcessor.main(args);
         String out = outContent.toString();
         System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
@@ -201,7 +202,8 @@ public class DefaultFileProcessorITest {
     public void testRightTwoArgumentsToMain()  {
         System.setOut(new PrintStream(outContent));
         URL url = DefaultFileProcessorITest.class.getResource("/testFileUTF8_NO_BOM.txt");
-        String[] args = {url.getFile().substring(1), "UTF-8"};
+        String fileName = isWindows() ? url.getFile().substring(1) : url.getFile();
+        String[] args = {fileName, "UTF-8"};
         DefaultFileProcessor.main(args);
         String out = outContent.toString();
         System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
